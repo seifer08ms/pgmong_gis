@@ -1,0 +1,45 @@
+version: '3'
+services:
+    db:
+        image: seifer08ms/pgfdw_mongo
+        networks:
+            - backend
+        volumes:
+            - $HOME/mongofdw/pg_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=${PG_USER:-mongo}
+            - POSTGRES_PASSWORD=${PG_PASS:-mongotest}
+            - POSTGRES_DB=${PG_DB:-gis}
+        build:
+            context: ./pg_mongo
+    geoserver:
+        image: seifer08ms/geoserver:${GEOSERVER_VER:-2.11.0}
+        ports:
+            - 8080:8080
+        networks:
+            - backend
+        volumes:
+            - $PWD/geoserver/geoserver_setenv.sh:/usr/local/tomcat/bin/setenv.sh
+            - $HOME/mongofdw/gs_data:/opt/geoserver/data_dir
+        links:
+            - db:postgis 
+        build:
+            context: ./geoserver
+            args:
+                GS_VERSION: ${GEOSERVER_VER:-2.11.0}
+    post_preview:
+        image: seifer08ms/postgis-preview
+        networks:
+            - backend
+        volumes:
+            - $PWD/postgis-preview/.pgviewenv:/postgis-preview/.env
+        links:
+            - db:postgis
+        ports:
+            - 4000:4000
+        build:
+            context: ./postgis-preview
+        
+networks:
+        backend:
+
