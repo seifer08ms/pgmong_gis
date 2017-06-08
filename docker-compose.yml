@@ -12,6 +12,14 @@ services:
             - POSTGRES_DB=${PG_DB:-gis}
         build:
             context: ./pg_mongo
+    mongo:
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - $HOME?mongofdw/mongo_data
+        networks:
+            - backend
     geoserver:
         image: seifer08ms/geoserver:${GEOSERVER_VER:-2.11.0}
         ports:
@@ -31,6 +39,7 @@ services:
         image: seifer08ms/postgis-preview
         networks:
             - backend
+            - frontend
         volumes:
             - $PWD/postgis-preview/.pgviewenv:/postgis-preview/.env
         links:
@@ -42,4 +51,5 @@ services:
         
 networks:
         backend:
+        frontend:
 
