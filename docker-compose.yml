@@ -48,6 +48,17 @@ services:
             - 4000:4000
         build:
             context: ./postgis-preview
+    notebook:
+        image: seifer08ms/pgmong_notebook
+        networks:
+            - backend
+        ports:
+            - 8888:8888
+        build:
+            context: ./notebook
+            args:
+                PASSWORD: mongo
+        command:  start-notebook.sh --NotebookApp.token=''
         
 networks:
         backend:
