@@ -7,6 +7,7 @@ FROM  jupyter/base-notebook
 
 #RUN apt-get update 
 RUN mkdir -p  /home/jovyan/notebook
-WORKDIR /home/jovyan/notebook
-ADD requirements.txt /home/jovyan/notebook
+ADD requirements.txt /
+WORKDIR /
 RUN pip install pip --upgrade &&  pip install -r requirements.txt
+WORKDIR /home/jovyan/notebook

@@ -17,7 +17,7 @@ services:
         ports:
             - 27017:27017
         volumes:
-            - $HOME?mongofdw/mongo_data
+            - $HOME/mongofdw/mongo_data:/data/db
         networks:
             - backend
     geoserver:
@@ -56,8 +56,8 @@ services:
             - 8888:8888
         build:
             context: ./notebook
-            args:
-                PASSWORD: mongo
+        volumes:
+            - $PWD/notebook/notebook:/home/jovyan/notebook
         command:  start-notebook.sh --NotebookApp.token=''
         
 networks:
