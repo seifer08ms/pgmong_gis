@@ -1,4 +1,4 @@
-FROM  jupyter/base-notebook 
+FROM  jupyter/scipy-notebook
 
 # Use local cached debs from host (saves your bandwidth!)
 # Change ip below to that of your apt-cacher-ng host
@@ -9,5 +9,5 @@ FROM  jupyter/base-notebook
 RUN mkdir -p  /home/jovyan/notebook
 ADD requirements.txt /
 WORKDIR /
-RUN pip install pip --upgrade &&  pip install -r requirements.txt
+RUN pip2 install pip --upgrade &&  pip2 install -r requirements.txt 
 WORKDIR /home/jovyan/notebook

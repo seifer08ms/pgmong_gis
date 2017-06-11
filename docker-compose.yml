@@ -14,8 +14,6 @@ services:
             context: ./pg_mongo
     mongo:
         image: mongo
-        ports:
-            - 27017:27017
         volumes:
             - $HOME/mongofdw/mongo_data:/data/db
         networks:
