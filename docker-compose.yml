@@ -57,6 +57,15 @@ services:
         volumes:
             - $PWD/notebook/notebook:/home/jovyan/notebook
         command:  start-notebook.sh --NotebookApp.token=''
+    pgweb:
+        image: microbox/pgweb
+        networks:
+            - backend
+        ports:
+            - 4002:8080
+        environment:
+            - URL="postgres://mongo:mongotest@db:5432/gis?sslmode=disable"
+
         
 networks:
         backend:
